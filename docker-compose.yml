@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: irontrack-db
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build:
+      context: ./backend/TowardsFailure.API
+      dockerfile: Dockerfile
+    container_name: irontrack-api
+    restart: unless-stopped
+    ports:
+      - "5000:8080"
+    environment:
+      - MongoDb__ConnectionString=mongodb://mongodb:27017
+      - MongoDb__DatabaseName=irontrack
+      - Jwt__Secret=ThisIsAVeryLongSecretKeyForIronTrackJwtAuth2024!
+      - Jwt__Issuer=IronTrack
+      - Jwt__Audience=IronTrackClient
+      # ── SMTP Email (Gmail) ──
+      # Remplacez par vos identifiants Gmail + Mot de passe d'application
+      # (Mot de passe normal NE MARCHE PAS — générez-en un sur https://myaccount.google.com/apppasswords)
+      - Email__Host=smtp.gmail.com
+      - Email__Port=587
+      - Email__Username=votre.email@gmail.com
+      - Email__Password=xxxx xxxx xxxx xxxx
+      - Email__FromName=IronTrack Coach
+      # ── Social Auth (Google / Facebook / Instagram) ──
+      # Créez des OAuth credentials sur chaque plateforme
+      # Google: https://console.cloud.google.com/apis/credentials
+      # Facebook: https://developers.facebook.com
+      # Instagram: https://developers.facebook.com/docs/instagram-basic-display-api
+      - SocialAuth__GoogleClientId=
+      - SocialAuth__GoogleClientSecret=
+      - SocialAuth__FacebookAppId=
+      - SocialAuth__FacebookAppSecret=
+      - SocialAuth__InstagramClientId=
+      - SocialAuth__InstagramClientSecret=
+      - SocialAuth__OAuthRedirectUri=http://localhost:3000/oauth-callback
+      - SocialAuth__FrontendUrl=http://localhost:3000
+    depends_on:
+      - mongodb
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: irontrack-ui
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
