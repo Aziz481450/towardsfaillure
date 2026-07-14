@@ -53,7 +53,7 @@ export const authService = {
     return res.data
   },
   async sendMagicLink(email: string) {
-    const res = await api.post<ApiResponse<any>>('/auth/send-magic-link', { email })
+    const res = await api.post<ApiResponse<{ magicLink?: string }>>('/auth/send-magic-link', { email })
     return res.data
   },
   async verifyMagicLink(token: string) {

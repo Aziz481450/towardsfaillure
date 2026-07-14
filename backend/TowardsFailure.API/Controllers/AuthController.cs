@@ -46,9 +46,9 @@ public class AuthController : ControllerBase
         var frontendUrl = _config.GetValue<string>("FrontendUrl") ?? "http://localhost:3000";
         var link = $"{frontendUrl}/magic-login?token={token}";
 
-        await _emailService.TrySendMagicLinkAsync(dto.Email, link);
+        _ = Task.Run(() => _emailService.TrySendMagicLinkAsync(dto.Email, link));
 
-        return Ok(ApiResponse<object>.Ok(new { }, "If this email exists, a magic link has been sent."));
+        return Ok(ApiResponse<object>.Ok(new { magicLink = link, message = "Magic link generated" }, "If this email exists, a magic link has been sent."));
     }
 
     [HttpGet("verify-magic-link")]

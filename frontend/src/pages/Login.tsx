@@ -116,6 +116,7 @@ export default function Login() {
   const [showPass, setShowPass] = useState(false)
   const [magicMode, setMagicMode] = useState(false)
   const [magicSent, setMagicSent] = useState(false)
+  const [magicLink, setMagicLink] = useState('')
   const [magicLoading, setMagicLoading] = useState(false)
   const { login } = useAuth()
   const navigate = useNavigate()
@@ -145,7 +146,8 @@ export default function Login() {
     if (!email) { setError('Enter your email first'); return }
     setMagicLoading(true); setError('')
     try {
-      await authService.sendMagicLink(email)
+      const res = await authService.sendMagicLink(email)
+      if (res.data?.magicLink) setMagicLink(res.data.magicLink)
       setMagicSent(true)
     } catch {
       setError('Failed to send magic link')
@@ -216,10 +218,16 @@ export default function Login() {
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 2 11 13"/><path d="M22 2 6 12"/><path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7"/>
                 </svg>
-                <h3 style={{color:'#F0EEE8',margin:'12px 0 4px',fontSize:'1rem'}}>Magic link sent!</h3>
-                <p style={{color:'rgba(240,238,232,0.4)',fontSize:'0.8rem',margin:0}}>Check your email inbox.</p>
+                <h3 style={{color:'#F0EEE8',margin:'12px 0 4px',fontSize:'1rem'}}>Magic link prêt !</h3>
+                {magicLink ? (
+                  <a href={magicLink} className="auth-magic-link-btn" style={{display:'inline-block',margin:'10px 0',padding:'10px 20px',background:'#DC2626',color:'#fff',borderRadius:'8px',textDecoration:'none',fontWeight:600,fontSize:'0.85rem'}}>
+                    Cliquer pour se connecter &rarr;
+                  </a>
+                ) : (
+                  <p style={{color:'rgba(240,238,232,0.4)',fontSize:'0.8rem',margin:0}}>Check your email inbox.</p>
+                )}
                 <button type="button" className="auth-magic-back" onClick={() => { setMagicMode(false); setMagicSent(false) }}>
-                  Back to login
+                  Retour
                 </button>
               </div>
             ) : (
