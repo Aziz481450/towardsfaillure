@@ -3167,6 +3167,7 @@ body {
   .navbar-links { display: none !important; }
   .nav-user-desktop { display: none !important; }
   .navbar-hamburger { display: flex !important; }
+  .navbar-mobile-menu { display: block !important; }
   .navbar-actions > .btn-nav-signin, .navbar-actions > .btn-nav-start { display: none; }
   .navbar-actions > .navbar-hamburger { display: flex !important; }
   .hero-stats { grid-template-columns: repeat(2, 1fr); }
