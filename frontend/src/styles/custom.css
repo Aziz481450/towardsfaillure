@@ -3146,3 +3146,169 @@ body {
   .feature-card { padding: 22px 18px !important; }
   .btn-nav-start, .btn-nav-signin { padding: 6px 14px !important; font-size: 0.75rem !important; }
 }
+
+/* ===== PROFILE 900px RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .profile-root { padding: 0 12px 90px; }
+  .profile-hero { min-height: 260px; border-radius: 16px; }
+  .profile-hero-content { padding: 20px; }
+  .profile-quick-stats { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .profile-pane-grid { grid-template-columns: 1fr; gap: 8px; }
+  .profile-actions-grid { grid-template-columns: repeat(2, 1fr); }
+  .profile-tabs { gap: 4px; padding: 4px; }
+  .profile-tab { font-size: 0.72rem; padding: 10px 8px; }
+}
+
+/* ===== AUTH 600px RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .auth-form-card { max-width: 100%; margin: 0 12px; padding: 28px 20px; }
+  .auth-form-full { min-height: 100dvh; }
+  .auth-title { font-size: 1.5rem; }
+  .auth-subtitle { font-size: 0.8rem; }
+  .auth-input { padding: 10px 14px; font-size: 0.85rem; }
+  .auth-input-icon { width: 36px; font-size: 0.9rem; }
+  .auth-submit-btn { padding: 12px; font-size: 0.85rem; }
+  .auth-divider { margin: 20px 0; }
+  .auth-magic-toggle { font-size: 0.78rem; }
+  .auth-footer { font-size: 0.78rem; flex-direction: column; gap: 4px; text-align: center; }
+}
+
+/* ===== AUTH 400px RESPONSIVE ===== */
+@media (max-width: 400px) {
+  .auth-form-card { padding: 24px 16px; }
+  .auth-title { font-size: 1.3rem; }
+  .auth-field { margin-bottom: 14px; }
+  .auth-input { padding: 8px 12px; font-size: 0.8rem; }
+  .auth-submit-btn { font-size: 0.8rem; padding: 10px; }
+  .auth-magic-toggle { font-size: 0.72rem; }
+}
+
+/* ===== PROGRAMS (Coach IA) RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .prog-container { padding: 24px 16px 90px; }
+  .prog-title { font-size: clamp(1.3rem, 5vw, 1.8rem); }
+  .prog-chat-body { max-height: 340px; padding: 12px 14px; }
+  .prog-programs-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .prog-orb-1 { width: 200px; height: 200px; }
+  .prog-orb-2 { width: 160px; height: 160px; }
+  .prog-orb-3 { width: 140px; height: 140px; }
+  .prog-glow { width: 250px; height: 250px; }
+}
+
+@media (max-width: 600px) {
+  .prog-container { padding: 20px 12px 80px; }
+  .prog-header { margin-bottom: 20px; }
+  .prog-badge { font-size: 9px; padding: 4px 12px; }
+  .prog-title { font-size: clamp(1.1rem, 6vw, 1.4rem); }
+  .prog-sub { font-size: 0.75rem; }
+  .prog-chat-body { max-height: 300px; padding: 10px 12px; gap: 10px; }
+  .prog-bubble { font-size: 12px; max-width: 88%; padding: 6px 10px; }
+  .prog-avatar { width: 22px; height: 22px; font-size: 9px; }
+  .prog-quick { padding: 0 12px 10px; gap: 4px; }
+  .prog-quick-btn { font-size: 9px; padding: 3px 10px; }
+  .prog-input-row { padding: 10px 12px; gap: 6px; }
+  .prog-input { padding: 8px 12px; font-size: 12px; }
+  .prog-send-btn { padding: 8px 14px; font-size: 11px; }
+  .prog-programs-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .prog-programs-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .coach-card-img { height: 60px; }
+  .coach-card-body { padding: 10px 12px; }
+  .coach-card-name { font-size: 0.75rem; }
+  .coach-card-goal { font-size: 0.62rem; }
+  .coach-card-tag { font-size: 8px; }
+  .prog-orb-1 { display: none; }
+  .prog-orb-2 { display: none; }
+  .prog-orb-3 { display: none; }
+  .prog-glow { width: 180px; height: 180px; opacity: 0.5; }
+  .prog-dbell { display: none; }
+}
+
+@media (max-width: 400px) {
+  .prog-container { padding: 16px 10px 80px; }
+  .prog-title { font-size: 1rem; }
+  .prog-sub { font-size: 0.7rem; }
+  .prog-badge { font-size: 8px; padding: 3px 10px; }
+  .prog-badge-dot { width: 4px; height: 4px; }
+  .prog-chat-body { max-height: 260px; padding: 8px 10px; gap: 8px; }
+  .prog-bubble { font-size: 11px; max-width: 92%; padding: 5px 8px; }
+  .prog-programs-grid { grid-template-columns: 1fr; gap: 6px; }
+  .prog-input { font-size: 11px; padding: 6px 10px; }
+  .prog-send-btn { font-size: 10px; padding: 6px 12px; }
+  .prog-glow { display: none; }
+}
+
+/* ===== WORKOUT LOGGER 400px RESPONSIVE ===== */
+@media (max-width: 400px) {
+  .wok-hero { min-height: 180px; padding: 80px 12px 20px; }
+  .wok-hero-title { font-size: 1.1rem; }
+  .wok-prog-list { padding: 0 12px 30px; }
+  .wok-live-exs { padding: 12px 12px 90px; }
+  .wok-live-bar { padding: 10px 12px; flex-wrap: wrap; gap: 8px; }
+  .wok-live-name { font-size: 0.65rem; }
+  .wok-live-ex-card { padding: 10px 10px; }
+  .wok-live-ex-header h3 { font-size: 0.75rem; }
+  .wok-live-set-row { grid-template-columns: 24px 1fr 1fr 1fr 30px; gap: 4px; }
+  .wok-live-set-row input { padding: 4px 6px; font-size: 0.65rem; }
+  .wok-live-set-label { font-size: 0.55rem; }
+  .wok-live-check { width: 22px; height: 22px; }
+  .wok-live-addset { padding: 8px; font-size: 0.7rem; }
+  .wok-live-notes { padding: 0 12px; }
+  .wok-live-notes textarea { padding: 8px 12px; font-size: 0.72rem; min-height: 60px; }
+  .wok-live-bottom { padding: 10px 12px 70px; gap: 8px; flex-direction: column; }
+  .wok-live-bottom button { width: 100%; justify-content: center; }
+  .wok-done-card { padding: 24px 20px; }
+  .wok-done-title { font-size: 1.3rem; }
+  .wok-done-stats { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .wok-done-stats span:first-child { font-size: 1rem; }
+  .wok-done-btn { padding: 10px 20px; font-size: 0.75rem; }
+}
+
+/* ===== STATS 400px RESPONSIVE ===== */
+@media (max-width: 400px) {
+  .stats-hero { min-height: 180px; padding: 80px 12px 20px; }
+  .stats-hero-title { font-size: 1.1rem; }
+  .stats-grid-wrap { padding: 0 12px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: -12px; }
+  .stats-card { padding: 10px; }
+  .stats-card-val { font-size: 0.85rem; }
+  .stats-card-label { font-size: 0.5rem; }
+  .stats-bottom { padding: 16px 12px 70px; gap: 12px; }
+  .stats-chart-wrap { padding: 0 12px; }
+  .stats-chart { padding: 12px 10px; min-height: 120px; }
+  .stats-chart-bar { width: 14px; }
+  .stats-chart-bar-val { font-size: 0.55rem; }
+  .stats-chart-day { font-size: 0.5rem; }
+  .stats-muscle-card, .stats-recent-card { padding: 14px 14px; }
+  .stats-muscle-left { min-width: 60px; }
+  .stats-muscle-name { font-size: 0.6rem; }
+  .stats-muscle-bar-outer { height: 14px; }
+  .stats-empty { padding: 40px 20px; }
+}
+
+/* ===== WORKOUT NAVBAR 600px & 400px RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .wnav-b-item { padding: 6px 10px; min-width: 40px; }
+  .wnav-b-icon { font-size: 1.1rem; }
+  .wnav-b-label { font-size: 0.45rem; }
+}
+
+@media (max-width: 400px) {
+  .wnav-bottom { padding: 2px 0 calc(2px + env(safe-area-inset-bottom)); }
+  .wnav-b-item { padding: 4px 6px; min-width: 36px; gap: 0; }
+  .wnav-b-icon { font-size: 1rem; }
+  .wnav-b-label { font-size: 0.42rem; }
+  .wnav-b-bar { width: 16px; height: 2px; }
+}
+
+/* ===== OPENCODE RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .oc-feature-card { padding: 14px; }
+  .oc-int-card { padding: 14px; }
+  .oc-cta { font-size: 0.82rem; }
+}
+
+@media (max-width: 400px) {
+  .oc-feature-card { padding: 10px; font-size: 0.78rem; }
+  .oc-int-card { padding: 10px; font-size: 0.78rem; }
+  .oc-cta { font-size: 0.75rem; }
+}
