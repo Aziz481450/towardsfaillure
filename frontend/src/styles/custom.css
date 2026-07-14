@@ -86,103 +86,115 @@ body {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(10,10,10,0.9);
-  backdrop-filter: blur(20px);
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  height: 68px;
+  height: 64px;
   display: flex;
   align-items: center;
+}
+@media (max-width: 400px) {
+  .navbar-premium { height: 56px; }
 }
 
 .navbar-premium-inner {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
+}
+@media (max-width: 400px) {
+  .navbar-premium-inner { padding: 0 12px; gap: 4px; }
 }
 
 .navbar-logo {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 8px;
   text-decoration: none;
-  position: relative;
+  flex-shrink: 0;
 }
 .navbar-logo-icon {
   filter: drop-shadow(0 0 8px rgba(220,38,38,0.3));
   transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+@media (max-width: 400px) {
+  .navbar-logo-icon { width: 24px; height: 24px; }
 }
 .navbar-logo:hover .navbar-logo-icon {
   transform: rotate(-8deg) scale(1.08);
 }
 .navbar-logo-text {
   font-family: 'Oswald', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   display: flex;
   align-items: baseline;
+  white-space: nowrap;
 }
-.navbar-logo-iron {
-  color: #F0EEE8;
+@media (max-width: 400px) {
+  .navbar-logo-text { font-size: 1rem; }
 }
-.navbar-logo-track {
-  color: var(--primary);
-  margin-left: 1px;
-}
+.navbar-logo-iron { color: #F0EEE8; }
+.navbar-logo-track { color: var(--primary); margin-left: 1px; }
 
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .navbar-link {
   color: rgba(255,255,255,0.5);
   text-decoration: none;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 500;
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 8px;
   transition: all 0.2s;
+  white-space: nowrap;
 }
-
 .navbar-link:hover { color: #fff; background: rgba(255,255,255,0.06); }
 
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .btn-nav-signin {
-  padding: 8px 20px;
+  padding: 8px 18px;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.1);
   background: transparent;
   color: rgba(255,255,255,0.7);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s;
+  white-space: nowrap;
 }
-
 .btn-nav-signin:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
 
 .btn-nav-start {
-  padding: 8px 20px;
+  padding: 8px 18px;
   border-radius: 10px;
   border: none;
   background: var(--primary);
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.2s;
+  white-space: nowrap;
 }
-
 .btn-nav-start:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(220,38,38,0.3); }
 
 /* ===== HERO — ULTRA PREMIUM ===== */
@@ -2345,51 +2357,61 @@ body {
 
 /* ===== NAVBAR MOBILE ===== */
 .navbar-hamburger {
-  display: none; width: 34px; height: 26px; position: relative;
-  background: none; border: none; cursor: pointer; padding: 4px;
-  min-width: 44px; min-height: 44px;
+  display: none; position: relative;
+  background: none; border: none; cursor: pointer;
+  width: 44px; height: 44px;
   align-items: center; justify-content: center;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .navbar-hamburger span {
   display: block; height: 2.5px; width: 22px; border-radius: 2px;
   position: absolute; left: 50%; transform: translateX(-50%);
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
-.navbar-hamburger span:nth-child(1) { top: 8px; }
-.navbar-hamburger span:nth-child(2) { top: 14px; }
-.navbar-hamburger span:nth-child(3) { top: 20px; }
+.navbar-hamburger span:nth-child(1) { top: 14px; }
+.navbar-hamburger span:nth-child(2) { top: 21px; }
+.navbar-hamburger span:nth-child(3) { top: 28px; }
+.navbar-hamburger:active { opacity: 0.7; }
 
 .navbar-mobile-menu {
-  display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0;
-  background: #0D0D0D; z-index: 999; padding: 8px 0 100px; overflow-y: auto;
+  display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+  background: #0D0D0D; z-index: 999; padding: 4px 0 120px; overflow-y: auto;
   border-top: 1px solid rgba(255,255,255,0.05);
   -webkit-overflow-scrolling: touch;
 }
-.navbar-mobile-link {
-  display: flex; align-items: center; padding: 16px 24px; color: rgba(255,255,255,0.7);
-  text-decoration: none; font-size: 1rem; font-weight: 500;
-  transition: all 0.15s; border-radius: 0; min-height: 52px;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
+@media (max-width: 400px) {
+  .navbar-mobile-menu { top: 56px; }
 }
-.navbar-mobile-link:hover,
-.navbar-mobile-link:active { color: #fff; background: rgba(255,255,255,0.06); }
+.navbar-mobile-link {
+  display: flex; align-items: center; padding: 18px 24px;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none; font-size: 1rem; font-weight: 500;
+  transition: all 0.15s; min-height: 56px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.navbar-mobile-link:active { color: #fff; background: rgba(255,255,255,0.08); }
 .navbar-mobile-link:last-child { border-bottom: none; }
 
 .navbar-mobile-user {
   display: flex; align-items: center; gap: 14px;
-  padding: 16px 24px; margin-bottom: 4px;
+  padding: 18px 24px; margin-bottom: 4px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
   background: rgba(255,255,255,0.02);
 }
-.navbar-mobile-username { color: #fff; font-weight: 700; font-size: 0.95rem; }
-.navbar-mobile-userrole { color: rgba(255,255,255,0.35); font-size: 0.75rem; }
+.navbar-mobile-username { color: #fff; font-weight: 700; font-size: 1rem; }
+.navbar-mobile-userrole { color: rgba(255,255,255,0.35); font-size: 0.8rem; }
 .navbar-mobile-divider { border-top: 1px solid rgba(255,255,255,0.06); margin: 4px 24px; }
 .navbar-mobile-signout {
   color: #DC2626 !important; width: 100%; text-align: left; background: none;
-  border: none; cursor: pointer; font-weight: 700;
+  border: none; cursor: pointer; font-weight: 700; font-size: 1rem;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
-.navbar-mobile-signout:hover,
-.navbar-mobile-signout:active { background: rgba(220,38,38,0.08) !important; }
+.navbar-mobile-signout:active { background: rgba(220,38,38,0.1) !important; }
 .navbar-mobile-cta { color: #DC2626 !important; font-weight: 700; }
 
 .nav-user-chevron {
@@ -3124,7 +3146,6 @@ body {
   .navbar-links { display: none !important; }
   .nav-user-desktop { display: none !important; }
   .navbar-hamburger { display: flex !important; }
-  .navbar-mobile-menu { display: block !important; }
   .navbar-actions > .btn-nav-signin, .navbar-actions > .btn-nav-start { display: none; }
   .navbar-actions > .navbar-hamburger { display: flex !important; }
   .hero-stats { grid-template-columns: repeat(2, 1fr); }
@@ -3151,12 +3172,20 @@ body {
 }
 
 @media (max-width: 400px) {
+  .navbar-premium-inner { padding: 0 12px; }
   .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 0; }
   .hero-stat-item { padding: 12px 8px; }
   .hero-stat-num { font-size: 1.3rem; }
   .hero-stat-label { font-size: 0.55rem; }
   .btn-hero-primary, .btn-hero-secondary { padding: 12px 20px !important; font-size: 0.78rem !important; }
   .feature-card { padding: 22px 18px !important; }
+  .navbar-hamburger { width: 40px; height: 40px; }
+  .navbar-hamburger span { width: 18px; }
+  .navbar-hamburger span:nth-child(1) { top: 12px; }
+  .navbar-hamburger span:nth-child(2) { top: 19px; }
+  .navbar-hamburger span:nth-child(3) { top: 26px; }
+  .navbar-mobile-link { padding: 16px 20px; font-size: 0.9rem; min-height: 50px; }
+  .navbar-mobile-user { padding: 16px 20px; }
   .btn-nav-start, .btn-nav-signin { padding: 6px 14px !important; font-size: 0.75rem !important; }
 }
 
