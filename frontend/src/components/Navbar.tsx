@@ -66,20 +66,20 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
-              <button className="navbar-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
-                <span style={{ background: menuOpen ? 'transparent' : '#fff' }} />
-                <span style={{ transform: menuOpen ? 'rotate(45deg)' : 'none', background: '#fff' }} />
-                <span style={{ transform: menuOpen ? 'rotate(-45deg)' : 'none', background: '#fff' }} />
+              <button className={`navbar-hamburger ${menuOpen ? 'hamburger-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
               </button>
             </>
           ) : (
             <>
               <Link to="/login" className="btn-nav-signin">{tr('nav.signIn')}</Link>
               <Link to="/register" className="btn-nav-start">{tr('nav.getStarted')}</Link>
-              <button className="navbar-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
-                <span style={{ background: menuOpen ? 'transparent' : '#fff' }} />
-                <span style={{ transform: menuOpen ? 'rotate(45deg)' : 'none', background: '#fff' }} />
-                <span style={{ transform: menuOpen ? 'rotate(-45deg)' : 'none', background: '#fff' }} />
+              <button className={`navbar-hamburger ${menuOpen ? 'hamburger-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
               </button>
             </>
           )}
