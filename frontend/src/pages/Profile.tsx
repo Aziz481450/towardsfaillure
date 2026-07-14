@@ -3,6 +3,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../i18n/LangContext'
 import { t } from '../i18n/translations'
 import { useNavigate } from 'react-router-dom'
+import { API_URL as API } from '../services/api'
 
 interface SessionDto {
   id: string; programName?: string; date: string
@@ -14,7 +15,7 @@ interface PR {
   exerciseName: string; type: string; value: number; achievedAt: string
 }
 
-const API = import.meta.env.VITE_API_URL || '/api'
+
 
 const levels = [
   { min: 0, label: 'Débutant', color: '#6B7280', nextColor: '#CD7F32' },

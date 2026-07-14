@@ -5,6 +5,7 @@ import { useLang } from '../i18n/LangContext'
 import { t } from '../i18n/translations'
 import { programs, type Program } from '../data/programs'
 import InviteModal from '../components/InviteModal'
+import { API_URL as API } from '../services/api'
 
 const levelMap: Record<string, string> = {
   'Débutant': 'beginner', 'Intermédiaire': 'intermediate', 'Avancé': 'advanced',
@@ -27,7 +28,7 @@ interface SessionDto {
   totalVolume: number
 }
 
-const API = import.meta.env.VITE_API_URL || '/api'
+
 
 function Icon({ path, size = 18 }: { path: string; size?: number }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={path} /></svg>
