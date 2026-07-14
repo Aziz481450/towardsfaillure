@@ -68,8 +68,8 @@ export default function Navbar() {
               </div>
               <button className="navbar-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
                 <span style={{ background: menuOpen ? 'transparent' : '#fff' }} />
-                <span style={{ transform: menuOpen ? 'rotate(45deg)' : 'none', top: menuOpen ? '7px' : '0', background: '#fff' }} />
-                <span style={{ transform: menuOpen ? 'rotate(-45deg)' : 'none', top: menuOpen ? '-7px' : '0', background: '#fff' }} />
+                <span style={{ transform: menuOpen ? 'rotate(45deg)' : 'none', background: '#fff' }} />
+                <span style={{ transform: menuOpen ? 'rotate(-45deg)' : 'none', background: '#fff' }} />
               </button>
             </>
           ) : (
@@ -78,8 +78,8 @@ export default function Navbar() {
               <Link to="/register" className="btn-nav-start">{tr('nav.getStarted')}</Link>
               <button className="navbar-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
                 <span style={{ background: menuOpen ? 'transparent' : '#fff' }} />
-                <span style={{ transform: menuOpen ? 'rotate(45deg)' : 'none', top: menuOpen ? '7px' : '0', background: '#fff' }} />
-                <span style={{ transform: menuOpen ? 'rotate(-45deg)' : 'none', top: menuOpen ? '-7px' : '0', background: '#fff' }} />
+                <span style={{ transform: menuOpen ? 'rotate(45deg)' : 'none', background: '#fff' }} />
+                <span style={{ transform: menuOpen ? 'rotate(-45deg)' : 'none', background: '#fff' }} />
               </button>
             </>
           )}
