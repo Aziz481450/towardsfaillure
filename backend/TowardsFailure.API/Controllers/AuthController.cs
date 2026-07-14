@@ -43,8 +43,11 @@ public class AuthController : ControllerBase
         };
         await _magicRepo.CreateAsync(magicToken);
 
-        var frontendUrl = _config.GetValue<string>("FrontendUrl") ?? "http://localhost:3000";
-        var link = $"{frontendUrl}/magic-login?token={token}";
+        var frontendUrl = Request.Headers.Origin.FirstOrDefault()
+            ?? _config.GetValue<string>("FrontendUrl")
+            ?? Environment.GetEnvironmentVariable("FRONTEND_URL")
+            ?? "https://irontrack-ui.onrender.com";
+        var link = $"{frontendUrl.TrimEnd('/')}/magic-login?token={token}";
 
         _ = Task.Run(() => _emailService.TrySendMagicLinkAsync(dto.Email, link));
 
