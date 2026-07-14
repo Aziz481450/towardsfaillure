@@ -1,0 +1,36 @@
+services:
+  # ── Backend (ASP.NET 8 Web API) ──
+  - type: web
+    name: irontrack-api
+    runtime: docker
+    repo: https://github.com/Aziz481450/towardsfaillure
+    branch: main
+    rootDir: backend/TowardsFailure.API
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    envVars:
+      - key: MongoDb__ConnectionString
+        sync: false
+      - key: MongoDb__DatabaseName
+        value: irontrack
+      - key: Jwt__Secret
+        sync: false
+      - key: Jwt__Issuer
+        value: IronTrack
+      - key: Jwt__Audience
+        value: IronTrackClient
+    autoDeploy: true
+
+  # ── Frontend (React SPA with Nginx) ──
+  - type: web
+    name: irontrack-ui
+    runtime: docker
+    repo: https://github.com/Aziz481450/towardsfaillure
+    branch: main
+    rootDir: frontend
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+    autoDeploy: true
