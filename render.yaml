@@ -34,3 +34,4 @@ services:
       - key: VITE_API_URL
         sync: false
     autoDeploy: true
+    # version avec docker-entrypoint.sh
