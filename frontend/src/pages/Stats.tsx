@@ -4,6 +4,60 @@ import { programs, type Program } from '../data/programs'
 import { useLang } from '../i18n/LangContext'
 import { t } from '../i18n/translations'
 
+interface SetDetail { weight: number; reps: number; rpe?: number; isSuccess: boolean }
+interface ExDetail { exerciseName: string; sets: SetDetail[] }
+
+function SessionDetail({ session }: { session: SessionDto }) {
+  const [open, setOpen] = useState(false)
+  const totalSets = session.exercises.reduce((a, e) => a + e.sets.length, 0)
+  return (
+    <div style={{ borderBottom: '1px solid rgba(240,238,232,0.04)' }}>
+      <div onClick={() => setOpen(!open)} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'14px 16px', cursor:'pointer', transition:'background 0.2s' }}
+        onMouseEnter={e => e.currentTarget.style.background = 'rgba(220,38,38,0.04)'}
+        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+          <div style={{ width:6, height:6, borderRadius:'50%', background:'#DC2626' }} />
+          <div>
+            <div style={{ color:'#F0EEE8', fontSize:'0.85rem', fontWeight:500 }}>{session.programName || 'Quick Workout'}</div>
+            <div style={{ color:'rgba(240,238,232,0.3)', fontSize:'0.7rem' }}>
+              {new Date(session.date).toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' })}
+              {' · '}{session.durationMinutes}min
+            </div>
+          </div>
+        </div>
+        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+          <span style={{ color:'#DC2626', fontWeight:700, fontSize:'0.9rem' }}>{(session.totalVolume / 1000).toFixed(1)}k</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(240,238,232,0.3)" strokeWidth="2" strokeLinecap="round"
+            style={{ transform: open ? 'rotate(180deg)' : 'none', transition:'transform 0.2s' }}>
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </div>
+      </div>
+      {open && (
+        <div style={{ padding:'0 16px 16px' }}>
+          {session.exercises.map((ex, i) => (
+            <div key={i} style={{ marginBottom:8 }}>
+              <div style={{ color:'#DC2626', fontSize:'0.75rem', fontWeight:600, marginBottom:4 }}>{ex.exerciseName}</div>
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:4, fontSize:'0.7rem', color:'rgba(240,238,232,0.5)', padding:'0 4px', marginBottom:2 }}>
+                <span>Set</span><span>Poids</span><span>Reps</span><span>RPE</span>
+              </div>
+              {ex.sets.map((set, j) => (
+                <div key={j} style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:4, padding:'3px 4px', borderRadius:4, background: set.isSuccess ? 'rgba(22,163,74,0.06)' : 'rgba(239,68,68,0.06)', fontSize:'0.75rem', color:'#F0EEE8', marginBottom:1 }}>
+                  <span>{j + 1}</span>
+                  <span>{set.weight} kg</span>
+                  <span>{set.reps}</span>
+                  <span>{set.rpe ?? '-'}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+          <div style={{ color:'rgba(240,238,232,0.2)', fontSize:'0.65rem', marginTop:4 }}>{totalSets} sets · {session.exercises.length} exercices</div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 const bg = 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1440&q=80'
 
 interface MuscleStat { name: string; sets: number; volume: number; color: string }
@@ -161,24 +215,13 @@ export default function Stats() {
             {muscleStats.length === 0 && <p className="stats-empty">{tr('stats.noData')}</p>}
           </div>
         </div>
-        <div className="stats-recent-card">
-          <h3>{tr('stats.recentSessions')}</h3>
+        <div className="stats-recent-card" style={{ padding:0 }}>
+          <h3 style={{ padding:'16px 16px 0', margin:'0 0 8px' }}>{tr('stats.recentSessions')}</h3>
           {recentSessions.length === 0 ? (
-            <p className="stats-empty">{tr('stats.noSessions')}</p>
+            <p className="stats-empty" style={{ padding:'16px' }}>{tr('stats.noSessions')}</p>
           ) : (
-            <div className="stats-recent-list">
-              {recentSessions.map(s => (
-                <div key={s.id} className="stats-recent-item">
-                  <div className="stats-recent-left">
-                    <div className="stats-recent-dot" />
-                    <div>
-                      <div className="stats-recent-name">{s.programName || 'Quick Workout'}</div>
-                      <div className="stats-recent-meta">{new Date(s.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} &middot; {s.durationMinutes}min &middot; {s.exercises.length}ex</div>
-                    </div>
-                  </div>
-                  <span className="stats-recent-vol">{(s.totalVolume / 1000).toFixed(1)}k</span>
-                </div>
-              ))}
+            <div>
+              {recentSessions.map(s => <SessionDetail key={s.id} session={s} />)}
             </div>
           )}
         </div>

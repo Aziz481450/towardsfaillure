@@ -134,20 +134,39 @@ export default function Programs() {
   const mx = mousePos.x - 0.5
   const my = mousePos.y - 0.5
 
-  const ask = (q: string) => {
+  const ask = async (q: string) => {
     if (!q.trim() || typing) return
     setMsgs(prev => [...prev, { role: 'user', text: q.trim() }])
     setInput(''); setTyping(true)
-    setTimeout(() => {
-      const result = findAnswer(q)
-      const answer = result.score > 0 ? result.answer : generateFallback(q)
-      const t = typeText(answer, setTypingText, () => {
-        setMsgs(prev => [...prev, { role: 'bot', text: answer }])
-        setTypingText(''); setTyping(false)
-        inputRef.current?.focus()
-      }, 15)
-      typingRef.current = t
-    }, 400)
+
+    try {
+      const token = localStorage.getItem('token')
+      const res = await fetch(`${(window as any).__API_URL__ || '/api'}/ai/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+        body: JSON.stringify({ message: q.trim(), model: 'llama3' }),
+      })
+      const data = await res.json()
+      const reply = data?.data?.reply
+      if (reply && !reply.startsWith('⚠️') && !reply.startsWith('⏱️')) {
+        const t = typeText(reply, setTypingText, () => {
+          setMsgs(prev => [...prev, { role: 'bot', text: reply }])
+          setTypingText(''); setTyping(false)
+          inputRef.current?.focus()
+        }, 15)
+        typingRef.current = t
+        return
+      }
+    } catch {}
+
+    const result = findAnswer(q)
+    const answer = result.score > 0 ? result.answer : generateFallback(q)
+    const t = typeText(answer, setTypingText, () => {
+      setMsgs(prev => [...prev, { role: 'bot', text: answer }])
+      setTypingText(''); setTyping(false)
+      inputRef.current?.focus()
+    }, 15)
+    typingRef.current = t
   }
 
   const quickQuestions = [
