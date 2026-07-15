@@ -10,6 +10,22 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: irontrack-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+    entrypoint: >
+      sh -c "ollama serve &
+      sleep 5 &&
+      ollama pull llama3.2:latest &
+      wait"
+
   backend:
     build:
       context: ./backend/TowardsFailure.API
@@ -24,6 +40,7 @@ services:
       - Jwt__Secret=ThisIsAVeryLongSecretKeyForIronTrackJwtAuth2024!
       - Jwt__Issuer=IronTrack
       - Jwt__Audience=IronTrackClient
+      - OLLAMA_URL=http://ollama:11434
       # ── SMTP Email (Gmail) ──
       # Remplacez par vos identifiants Gmail + Mot de passe d'application
       # (Mot de passe normal NE MARCHE PAS — générez-en un sur https://myaccount.google.com/apppasswords)
@@ -47,6 +64,7 @@ services:
       - SocialAuth__FrontendUrl=http://localhost:3000
     depends_on:
       - mongodb
+      - ollama
 
   frontend:
     build:
@@ -61,3 +79,4 @@ services:
 
 volumes:
   mongo_data:
+  ollama_data:
