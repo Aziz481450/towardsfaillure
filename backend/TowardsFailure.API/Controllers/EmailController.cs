@@ -23,14 +23,27 @@ public class EmailController : ControllerBase
     [Authorize]
     public async Task<ActionResult<ApiResponse<object>>> SendInvite([FromBody] SendInviteDto dto)
     {
-        if (string.IsNullOrWhiteSpace(dto.ToEmail))
-            return BadRequest(ApiResponse<object>.Fail("Email is required"));
+        if (dto.ToEmails == null || dto.ToEmails.Count == 0)
+            return BadRequest(ApiResponse<object>.Fail("At least one email is required"));
 
-        var result = await _emailService.TrySendWorkoutInviteAsync(dto);
-        if (result.IsSuccess)
-            return Ok(ApiResponse<object>.Ok(new { }, "Invitation sent successfully"));
+        var frontendUrl = Request.Headers.Origin.FirstOrDefault()
+            ?? _config.GetValue<string>("FrontendUrl")
+            ?? Environment.GetEnvironmentVariable("FRONTEND_URL")
+            ?? "https://irontrack-ui.onrender.com";
 
-        return StatusCode(500, ApiResponse<object>.Fail(result.ErrorMessage ?? "SMTP error"));
+        var sent = 0; var errors = new List<string>();
+        foreach (var email in dto.ToEmails)
+        {
+            if (string.IsNullOrWhiteSpace(email)) continue;
+            var result = await _emailService.TrySendWorkoutInviteAsync(dto, email.Trim(), frontendUrl);
+            if (result.IsSuccess) sent++;
+            else errors.Add($"{email}: {result.ErrorMessage}");
+        }
+
+        if (sent > 0)
+            return Ok(ApiResponse<object>.Ok(new { sent, total = dto.ToEmails.Count }, $"{sent}/{dto.ToEmails.Count} invitation(s) sent"));
+
+        return StatusCode(500, ApiResponse<object>.Fail(errors.FirstOrDefault() ?? "SMTP error"));
     }
 
     [HttpGet("diagnostic")]

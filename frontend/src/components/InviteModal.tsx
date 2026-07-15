@@ -2,6 +2,7 @@ import { useState, useRef, useMemo } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../i18n/LangContext'
 import { t } from '../i18n/translations'
+import { API_URL } from '../services/api'
 
 const C = { cyan: '#00E5C8', amber: '#F5A623', black: '#0A0A0F', white: '#F0EEE8' }
 
@@ -78,6 +79,10 @@ export default function InviteModal({ show, onClose, programName, workoutSummary
   const [active, setActive] = useState('copy')
   const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
+  const [emailMode, setEmailMode] = useState(false)
+  const [emailInput, setEmailInput] = useState('')
+  const [sending, setSending] = useState(false)
+  const [emailResult, setEmailResult] = useState('')
 
   const sender = user?.fullName || user?.username || 'Un ami'
 
@@ -107,6 +112,38 @@ export default function InviteModal({ show, onClose, programName, workoutSummary
       setConfirm(label)
       setTimeout(() => { setConfirm(''); onClose() }, 1200)
     }
+  }
+
+  const sendEmails = async () => {
+    const emails = emailInput.split(/[\n,;]+/).map(e => e.trim()).filter(Boolean)
+    if (emails.length === 0) return
+    setSending(true); setEmailResult(''); setError('')
+    try {
+      const token = localStorage.getItem('token')
+      const res = await fetch(`${API_URL}/email/invite`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, 'X-IRONTRACK-CSRF': '1' },
+        body: JSON.stringify({
+          toEmails: emails,
+          senderName: sender,
+          programName,
+          workoutSummary,
+          totalVolume,
+          duration,
+          exercisesCount,
+        }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setEmailResult(`✅ ${data.data?.sent || emails.length}/${emails.length} envoyé(s)`)
+        setTimeout(() => { setEmailResult(''); setEmailMode(false); setEmailInput(''); onClose() }, 2000)
+      } else {
+        setError(data.message || 'Erreur SMTP')
+      }
+    } catch {
+      setError("Erreur d'envoi")
+    }
+    setSending(false)
   }
 
   if (!show) return null
@@ -169,7 +206,22 @@ export default function InviteModal({ show, onClose, programName, workoutSummary
           {channels.map(ch => {
             const isActive = active === ch.id
             const href = links[ch.id as keyof typeof links]
-            const isLink = ch.id === 'mail' || ch.id === 'whatsapp' || ch.id === 'sms' || ch.id === 'messenger'
+            const isLink = ch.id === 'whatsapp' || ch.id === 'sms' || ch.id === 'messenger'
+
+            if (ch.id === 'mail') {
+              return (
+                <button key={ch.id}
+                  className={`invite-channel ${isActive ? 'active' : ''}`}
+                  onClick={() => { setActive(ch.id); setEmailMode(true); setError('') }}
+                >
+                  <div className="invite-channel-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={ch.icon}/></svg>
+                  </div>
+                  <span className="invite-channel-label">{ch.label}</span>
+                  <span className="invite-channel-sub">{ch.sub}</span>
+                </button>
+              )
+            }
 
             if (isLink) {
               return (
@@ -200,6 +252,36 @@ export default function InviteModal({ show, onClose, programName, workoutSummary
             )
           })}
         </div>
+
+        {/* Email input section */}
+        {emailMode && (
+          <div className="invite-email-section" style={{ marginTop: 12 }}>
+            <textarea
+              placeholder={"Emails séparés par des virgules ou retours à la ligne\n\nemail1@gmail.com\nemail2@outlook.com"}
+              value={emailInput}
+              onChange={e => setEmailInput(e.target.value)}
+              rows={3}
+              style={{ width:'100%', background:'#0D0D16', color:'#F0EEE8', border:'1px solid rgba(240,238,232,0.1)', borderRadius:8, padding:'10px 12px', fontSize:'0.8rem', resize:'vertical', boxSizing:'border-box' }}
+            />
+            <div style={{ display:'flex', gap:8, marginTop:8 }}>
+              <button onClick={sendEmails} disabled={sending || !emailInput.trim()}
+                style={{ flex:1, padding:'10px', background:'#DC2626', color:'#fff', border:'none', borderRadius:8, fontWeight:600, fontSize:'0.8rem', cursor:'pointer', opacity: sending ? 0.6 : 1 }}>
+                {sending ? 'Envoi...' : `Envoyer à ${emailInput.split(/[\n,;]+/).filter(e=>e.trim()).length || '...'} destinataire(s)`}
+              </button>
+              <button onClick={() => { setEmailMode(false); setEmailInput(''); setError('') }}
+                style={{ padding:'10px 14px', background:'transparent', color:'rgba(240,238,232,0.4)', border:'1px solid rgba(240,238,232,0.1)', borderRadius:8, fontSize:'0.8rem', cursor:'pointer' }}>
+                Annuler
+              </button>
+            </div>
+          </div>
+        )}
+
+        {emailResult && (
+          <div className="invite-confirm" style={{ color:'#16A34A' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>{emailResult}</span>
+          </div>
+        )}
 
         {/* Confirmation toast */}
         {confirm && (

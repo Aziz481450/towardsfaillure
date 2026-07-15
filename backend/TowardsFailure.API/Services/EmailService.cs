@@ -109,17 +109,17 @@ public class EmailService : IEmailService
         }
     }
 
-    public async Task<EmailSendResult> TrySendWorkoutInviteAsync(SendInviteDto dto)
+    public async Task<EmailSendResult> TrySendWorkoutInviteAsync(SendInviteDto dto, string toEmail, string frontendUrl)
     {
         try
         {
             var subject = $"{dto.SenderName} t'invite à voir son entraînement sur IronTrack !";
 
-            var body = BuildEmailBody(dto);
+            var body = BuildEmailBody(dto, toEmail, frontendUrl);
 
             using var msg = new MailMessage();
             msg.From = new MailAddress(_settings.Username, _settings.FromName);
-            msg.To.Add(new MailAddress(dto.ToEmail, dto.ToName));
+            msg.To.Add(new MailAddress(toEmail));
             msg.Subject = subject;
             msg.Body = body;
             msg.IsBodyHtml = true;
@@ -151,7 +151,7 @@ public class EmailService : IEmailService
         }
     }
 
-    private static string BuildEmailBody(SendInviteDto dto)
+    private static string BuildEmailBody(SendInviteDto dto, string toEmail, string frontendUrl)
     {
         return $@"<!DOCTYPE html>
 <html lang=""fr"">
@@ -244,7 +244,7 @@ public class EmailService : IEmailService
               <table role=""presentation"" cellpadding=""0"" cellspacing=""0"">
                 <tr>
                   <td style=""background:#DC2626;border-radius:10px;padding:0;"">
-                    <a href=""http://localhost:3000/dashboard"" target=""_blank"" style=""display:inline-block;padding:13px 36px;color:#FFFFFF;font-size:14px;font-weight:600;text-decoration:none;letter-spacing:0.02em;"">
+                    <a href=""{frontendUrl}/dashboard"" target=""_blank"" style=""display:inline-block;padding:13px 36px;color:#FFFFFF;font-size:14px;font-weight:600;text-decoration:none;letter-spacing:0.02em;"">
                       Voir sur IronTrack &rarr;
                     </a>
                   </td>
@@ -263,7 +263,7 @@ public class EmailService : IEmailService
                 IronTrack &mdash; La plateforme de musculation la plus avancée au monde
               </p>
               <p style=""color:rgba(240,238,232,0.06);font-size:10px;margin:8px 0 0;"">
-                Cet email a été envoyé à {dto.ToEmail} &middot; IronTrack Coach
+                Cet email a été envoyé à {toEmail} &middot; IronTrack Coach
               </p>
             </td>
           </tr>

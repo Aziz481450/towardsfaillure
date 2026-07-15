@@ -10,6 +10,6 @@ public class EmailSendResult
 
 public interface IEmailService
 {
-    Task<EmailSendResult> TrySendWorkoutInviteAsync(SendInviteDto dto);
+    Task<EmailSendResult> TrySendWorkoutInviteAsync(SendInviteDto dto, string toEmail, string frontendUrl);
     Task<EmailSendResult> TrySendMagicLinkAsync(string toEmail, string link);
 }
