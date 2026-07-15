@@ -100,11 +100,23 @@ export default function History() {
                       ))}
                     </div>
                   ))}
+                  {/* Notes */}
+                  {s.notes && (
+                    <div style={{ marginTop:8, padding:'8px 10px', background:'rgba(220,38,38,0.04)', borderRadius:6, borderLeft:'2px solid #DC2626' }}>
+                      <div style={{ color:'rgba(240,238,232,0.3)', fontSize:'0.65rem', marginBottom:2 }}>Notes</div>
+                      <div style={{ color:'rgba(240,238,232,0.6)', fontSize:'0.75rem', lineHeight:1.4, whiteSpace:'pre-wrap' }}>{s.notes}</div>
+                    </div>
+                  )}
+
                   {/* Footer stats */}
                   <div style={{ display:'flex', gap:16, marginTop:8, padding:'8px 0 0', borderTop:'1px solid rgba(240,238,232,0.04)' }}>
                     <div><span style={{ color:'rgba(240,238,232,0.3)', fontSize:'0.65rem' }}>Volume </span><span style={{ color:'#DC2626', fontSize:'0.75rem', fontWeight:600 }}>{(s.totalVolume / 1000).toFixed(1)}k kg</span></div>
                     <div><span style={{ color:'rgba(240,238,232,0.3)', fontSize:'0.65rem' }}>Durée </span><span style={{ color:'#F0EEE8', fontSize:'0.75rem' }}>{s.durationMinutes} min</span></div>
                     <div><span style={{ color:'rgba(240,238,232,0.3)', fontSize:'0.65rem' }}>Exercices </span><span style={{ color:'#F0EEE8', fontSize:'0.75rem' }}>{s.exercises.length}</span></div>
+                  </div>
+                  {/* Progressive overload hint */}
+                  <div style={{ marginTop:6, fontSize:'0.65rem', color:'rgba(220,38,38,0.4)' }}>
+                    💡 Prochain séance : vise {s.exercises.map(e => e.sets.filter(se => se.isSuccess).length > 0 ? `+2.5kg au ${e.exerciseName}` : null).filter(Boolean).join(', ') || 'à progresser sur chaque exercice'}
                   </div>
                 </div>
               )}
