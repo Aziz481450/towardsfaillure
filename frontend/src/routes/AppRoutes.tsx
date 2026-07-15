@@ -11,6 +11,7 @@ import Dashboard from '../pages/Dashboard'
 import Programs from '../pages/Programs'
 import WorkoutLogger from '../pages/WorkoutLogger'
 import Stats from '../pages/Stats'
+import History from '../pages/History'
 import Profile from '../pages/Profile'
 
 function PublicLayout({ children }: { children: React.ReactNode }) {
@@ -41,6 +42,7 @@ export default function AppRoutes() {
       <Route path="/programs" element={<ProtectedRoute><Programs /></ProtectedRoute>} />
       <Route path="/workout" element={<ProtectedRoute><WorkoutLogger /></ProtectedRoute>} />
       <Route path="/stats" element={<ProtectedRoute><Stats /></ProtectedRoute>} />
+      <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

@@ -37,6 +37,7 @@ export default function Navbar() {
               <Link to="/programs" className="navbar-link">{tr('nav.programs')}</Link>
               <Link to="/workout" className="navbar-link">{tr('nav.workout')}</Link>
               <Link to="/stats" className="navbar-link">{tr('nav.stats')}</Link>
+              <Link to="/history" className="navbar-link">History</Link>
             </>
           ) : (
             <>
@@ -101,6 +102,7 @@ export default function Navbar() {
               <Link to="/programs" className="navbar-mobile-link" onClick={() => setMenuOpen(false)}>{tr('nav.programs')}</Link>
               <Link to="/workout" className="navbar-mobile-link" onClick={() => setMenuOpen(false)}>{tr('nav.workout')}</Link>
               <Link to="/stats" className="navbar-mobile-link" onClick={() => setMenuOpen(false)}>{tr('nav.stats')}</Link>
+              <Link to="/history" className="navbar-mobile-link" onClick={() => setMenuOpen(false)}>History</Link>
               <Link to="/profile" className="navbar-mobile-link" onClick={() => setMenuOpen(false)}>{tr('nav.profile')}</Link>
               <div className="navbar-mobile-divider" />
               <button className="navbar-mobile-link navbar-mobile-signout" onClick={() => { handleLogout(); setMenuOpen(false) }}>{tr('nav.signOut')}</button>
